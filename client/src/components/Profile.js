@@ -60,6 +60,11 @@ const Profile = (props) => {
                     }
                 }).catch((err) => { alert("", "Internal Server Error,Please Try Again Later!!!", "red") });
                 setIsFollowed(false);
+                let newData = data;
+                console.log(newData.followers);
+                newData.followers = newData.followers.filter(ele => ele.username !== localStorage.getItem('username'));
+                console.log(newData.followers);
+                setData(newData);
             } else {
                 fetch(`${host}/user/follow/${data.username}`, {
                     method: 'PATCH',
@@ -69,6 +74,9 @@ const Profile = (props) => {
                     }
                 }).catch((err) => { alert("", "Internal Server Error,Please Try Again Later!!!", "red") });
                 setIsFollowed(true);
+                let newData = data;
+                newData.followers.push({ username: localStorage.getItem('username') });
+                setData(newData);
             }
         }
     }
